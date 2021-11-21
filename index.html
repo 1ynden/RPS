@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rock, Paper, Scissors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+      h1{text-align: center; font-size: 36px; margin-bottom: 60px;}
+      body {
+        font-family: 'Montserrat', sans-serif; color: #eee;
+        font-weight: 100px;
+        margin: 3em auto;
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      	background-size: 400% 400%;
+      	animation: gradient 15s ease infinite;
+      	height: 100vh;
+      }
+      @keyframes gradient {
+      	0% {background-position: 0% 50%;}
+      	50% {background-position: 100% 50%;}
+      	100% {background-position: 0% 50%;}
+      }
+      button{opacity: 80%; background: none; color: #fff; width: 150px; height: 150px; border-radius: 100%; border: 8px solid #fff; font-size: 48px;  box-shadow: 5px 10px 8px #444;}
+      button i{margin: auto;}
+      .buttonbox{
+        margin: auto;
+        width: 80%;
+        display: flex;
+        justify-content: space-evenly;
+        margin-bottom: 40px;
+      }
+      .centerbox{
+        width: 100%;
+        margin: auto;
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 40px;
+        vertical-align: center;
+      }
+      .centerbox h1{
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+      .score{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+      }
+      .score p{
+        margin-bottom: 0px;
+        color: #fff;
+        font-size: 32px;
+      }
+      @media (max-width: 768px){
+        .buttonbox{width: 100%; margin-bottom: 20px;}
+        button{width: 125px; height: 125px;}
+        h1{margin-bottom: 20px;}
+        .centerbox{margin-bottom: 20px;}
+      }
+      .center{
+        text-align: center;
+      }
+      .invis{
+        opacity: 0%;
+      }
+      .show{
+        opacity: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Rock, Paper, Scissors</h1>
+    <div class="buttonbox">
+      <button id="rock" class="animate__animated" onclick="setTimeout(reset, 2000); runGame('rock');">
+        <i class="fas fa-fist-raised fa-rotate-270"></i>
+      </button>
+      <button id="paper" class="animate__animated" onclick="setTimeout(reset, 2000); runGame('paper');">
+        <i class="fas fa-hand-paper"></i>
+      </button>
+      <button id="scissors" class="animate__animated" onclick="setTimeout(reset, 2000); runGame('scissors');">
+        <i class="fas fa-hand-scissors fa-flip-horizontal"></i>
+      </button>
+    </div>
+    <div class="centerbox">
+      <div class="score">
+        <p>WINS</p>
+        <p><span id="wins">0</span></p>
+      </div>
+      <h1>VS</h1>
+      <div class="score">
+        <p>LOSS</p>
+        <p><span id="losses">0</span></p>
+      </div>
+    </div>
+    <div class="buttonbox">
+      <button id="rockbot" class="animate__animated invis">
+        <i class="fas fa-fist-raised fa-rotate-270"></i>
+      </button>
+      <button id="paperbot" class="animate__animated invis">
+        <i class="fas fa-hand-paper"></i>
+      </button>
+      <button id="scissorsbot" class="animate__animated invis">
+        <i class="fas fa-hand-scissors fa-flip-horizontal"></i>
+      </button>
+    </div>
+    <br><br>
+    <h2 class="center">You <span id="result">choose an action above</span>.</h2>
+
+    <script defer>
+
+      function reset(){
+        const rock = document.querySelector('#rock');
+        const paper = document.querySelector('#paper');
+        const scissors = document.querySelector('#scissors');
+
+        const botRock = document.querySelector('#rockbot');
+        const botPaper = document.querySelector('#paperbot');
+        const botScissors = document.querySelector('#scissorsbot');
+
+        btnArr = [rock, paper, scissors, botRock, botPaper, botScissors];
+        for (let i = 0; i < btnArr.length; i++){
+          if(btnArr[i].classList.contains("animate__fadeOutUp")){
+            btnArr[i].classList.remove("animate__fadeOutUp");
+            btnArr[i].classList.add("animate__fadeInDown");
+          }
+          if(btnArr[i].classList.contains("animate__fadeInUp")){
+            btnArr[i].classList.remove("animate__fadeInUp");
+            btnArr[i].classList.add("animate__fadeOutDown");
+          }
+        }
+      }
+
+      function runGame(play) {
+
+        const rock = document.querySelector('#rock');
+        const paper = document.querySelector('#paper');
+        const scissors = document.querySelector('#scissors');
+
+        const botRock = document.querySelector('#rockbot');
+        const botPaper = document.querySelector('#paperbot');
+        const botScissors = document.querySelector('#scissorsbot');
+
+        let botNum = Math.floor(Math.random() * 3) + 1;
+
+        if (botNum == 1) {
+          bot = "rock";
+          if(botRock.classList.contains("animate__fadeOutDown")){
+            botRock.classList.remove("animate__fadeOutDown");
+          }
+          botRock.classList.add("animate__fadeInUp");
+        } else if (botNum == 2) {
+          bot = "paper";
+          if(botPaper.classList.contains("animate__fadeOutDown")){
+            botPaper.classList.remove("animate__fadeOutDown");
+          }
+          botPaper.classList.add("animate__fadeInUp");
+        } else if (botNum == 3) {
+          bot = "scissors";
+          if(botScissors.classList.contains("animate__fadeOutDown")){
+            botScissors.classList.remove("animate__fadeOutDown");
+          }
+          botScissors.classList.add("animate__fadeInUp");
+        } else {
+          return console.log("Error");
+        };
+
+        if (play == "rock") {
+          paper.classList.add("animate__fadeOutUp");
+          scissors.classList.add("animate__fadeOutUp");
+          switch (bot) {
+            case "rock":
+              result = "tied";
+              break;
+            case "paper":
+              result = "lost";
+              break;
+            case "scissors":
+              result = "won";
+          };
+        } else if (play == "paper") {
+          rock.classList.add("animate__fadeOutUp");
+          scissors.classList.add("animate__fadeOutUp");
+          switch (bot) {
+            case "rock":
+              result = "won";
+              break;
+            case "paper":
+              result = "tied";
+              break;
+            case "scissors":
+              result = "lost";
+          };
+        } else if (play == "scissors") {
+          rock.classList.add("animate__fadeOutUp");
+          paper.classList.add("animate__fadeOutUp");
+          switch (bot) {
+            case "rock":
+              result = "lost";
+              break;
+            case "paper":
+              result = "won";
+              break;
+            case "scissors":
+              result = "tied";
+          };
+        } else {
+          result = "didn't play";
+        };
+
+        let wins = sessionStorage.getItem("winCount", 0);
+        let losses = sessionStorage.getItem("lossCount", 0);
+        wins = wins || 0;
+        losses = losses || 0;
+        if (result == "won") {wins++;}
+        else if (result == "lost"){losses++;}
+        sessionStorage.setItem("winCount", wins);
+        sessionStorage.setItem("lossCount", losses);
+
+        document.getElementById('result').innerHTML = result;
+        document.getElementById('wins').innerHTML = sessionStorage.getItem("winCount");
+        document.getElementById('losses').innerHTML = sessionStorage.getItem("lossCount");
+
+        console.log("You pick " + play);
+        console.log("Opponent picks " + bot);
+        console.log("You " + result);
+      }
+    </script>
+  </body>
+</html>
